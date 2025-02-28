@@ -29,11 +29,25 @@ const App = () => {
     setTotal(left + updatedRight);
   };
 
+  const handleClick = (direction) => {
+    if (direction === 'R') {
+      setAll(allClicks.concat('R'));
+      const updatedRight = right + 1;
+      setRight(updatedRight);
+      setTotal(left + updatedRight);
+    } else if (direction === 'L') {
+      setAll(allClicks.concat('L'));
+      const updatedLeft = left + 1;
+      setLeft(updatedLeft);
+      setTotal(updatedLeft + right);
+    }
+  };
+
   return (
     <div>
       {left}
-      <Button onClick={handleLeftClick} text={'left'} />
-      <Button onClick={handleRightClick} text={'right'} />
+      <Button onClick={() => handleClick('L')} text={'left'} />
+      <Button onClick={() => handleClick('R')} text={'right'} />
       {right}
       <History allClicks={allClicks} />
     </div>
