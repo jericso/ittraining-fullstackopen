@@ -22,6 +22,3 @@ const notes = [
 ReactDOM.createRoot(document.getElementById('root')).render(
   <App notes={notes} />
 );
-
-const result = notes.map((note) => note.id);
-console.log(result);
