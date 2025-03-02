@@ -1,15 +1,12 @@
 import { useState } from 'react';
 
 const Anecdote = ({ heading, anecdote, votes }) => {
-  let pluralS = '';
-  pluralS = votes !== 1 ? 's' : '';
-
   return (
     <>
       <h2>{heading}</h2>
       <div>{anecdote}</div>
       <div>
-        has {votes} vote{pluralS}
+        has {votes} vote{votes !== 1 ? 's' : ''}
       </div>
     </>
   );
@@ -30,8 +27,6 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.',
   ];
-
-  const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState({
     0: 0,
     1: 0,
@@ -42,12 +37,17 @@ const App = () => {
     6: 0,
     7: 0,
   });
+  const [currentAnecdote, setCurrentAnecdote] = useState(0);
   const [mostVotesIndex, setMostVotesIndex] = useState(0);
   const [votesCast, setVotesCast] = useState(false);
 
+  const handleNextAnecdoteClick = () => {
+    setCurrentAnecdote(Math.floor(Math.random() * 8));
+  };
+
   const handleVoteClick = () => {
     const votesCopy = { ...votes };
-    votesCopy[selected] += 1;
+    votesCopy[currentAnecdote] += 1;
     setVotes(votesCopy);
     setVotesCast(true);
 
@@ -58,10 +58,6 @@ const App = () => {
       }
     }
     setMostVotesIndex(mostIndex);
-  };
-
-  const handleNextAnecdoteClick = () => {
-    setSelected(Math.floor(Math.random() * 8));
   };
 
   let mostVotesAnecdote = '';
@@ -79,8 +75,8 @@ const App = () => {
     <div>
       <Anecdote
         heading={'Anecdote of the day'}
-        anecdote={anecdotes[selected]}
-        votes={votes[selected]}
+        anecdote={anecdotes[currentAnecdote]}
+        votes={votes[currentAnecdote]}
       />
       <Button onClick={handleVoteClick} label={'vote'} />
       <Button onClick={handleNextAnecdoteClick} label={'next anecdote'} />
