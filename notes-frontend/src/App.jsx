@@ -8,7 +8,7 @@ const App = (props) => {
 
   const addNote = (event) => {
     event.preventDefault();
-    event.preventDefault();
+    
     const noteObject = {
       content: newNote,
       important: Math.random() < 0.5,
