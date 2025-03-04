@@ -8,11 +8,11 @@ const App = (props) => {
 
   const addNote = (event) => {
     event.preventDefault();
-    
+
     const noteObject = {
+      id: notes.length + 1,
       content: newNote,
       important: Math.random() < 0.5,
-      id: String(notes.length + 1),
     };
 
     setNotes(notes.concat(noteObject));
