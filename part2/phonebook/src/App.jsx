@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Phonebook from './components/Phonebook';
+import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import PersonFilter from './components/PersonFilter';
 
@@ -40,8 +40,9 @@ const App = () => {
       <PersonForm
         onSubmit={(newPerson) => handlePersonFormSubmit(newPerson)}
         persons={persons}
+        heading={'Add a new'}
       />
-      <Phonebook persons={filteredPersons} />
+      <Persons persons={filteredPersons} heading={'Numbers'} />
     </div>
   );
 };

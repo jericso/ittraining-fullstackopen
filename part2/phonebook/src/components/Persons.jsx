@@ -1,12 +1,12 @@
 import Person from './Person';
 
-const Phonebook = ({ persons }) => (
+const Persons = ({ persons, heading }) => (
   <div>
-    <h2>Numbers</h2>
+    <h3>{heading}</h3>
     {persons.map((person) => (
       <Person key={person.id} name={person.name} number={person.number} />
     ))}
   </div>
 );
 
-export default Phonebook;
+export default Persons;
