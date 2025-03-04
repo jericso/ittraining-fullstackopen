@@ -11,12 +11,36 @@ const App = () => {
     { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122' },
   ]);
   const [filteredPersons, setFilteredPersons] = useState(persons);
+  const [nameFilter, setNameFilter] = useState('');
+
+  const handlePersonFormOnSubmit = (newPerson) => {
+    const updatedPersons = persons.concat(newPerson);
+
+    setPersons(updatedPersons);
+    setFilteredPersons(updatedPersons);
+    setNameFilter('');
+  };
+
+  const handlePersonFilterOnChange = (nameFilter) => {
+    setFilteredPersons(
+      persons.filter((person) =>
+        person.name.toUpperCase().includes(nameFilter.toUpperCase())
+      )
+    );
+    setNameFilter(nameFilter);
+  };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <PersonFilter persons={persons} setFilteredPersons={setFilteredPersons} />
-      <PersonForm persons={persons} setPersons={setPersons} />
+      <PersonFilter
+        onChange={(nameFilter) => handlePersonFilterOnChange(nameFilter)}
+        nameFilter={nameFilter}
+      />
+      <PersonForm
+        onSubmit={(newPerson) => handlePersonFormOnSubmit(newPerson)}
+        persons={persons}
+      />
       <Phonebook persons={filteredPersons} />
     </div>
   );
