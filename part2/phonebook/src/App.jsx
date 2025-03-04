@@ -13,7 +13,7 @@ const App = () => {
   const [filteredPersons, setFilteredPersons] = useState(persons);
   const [nameFilter, setNameFilter] = useState('');
 
-  const handlePersonFormOnSubmit = (newPerson) => {
+  const handlePersonFormSubmit = (newPerson) => {
     const updatedPersons = persons.concat(newPerson);
 
     setPersons(updatedPersons);
@@ -21,7 +21,7 @@ const App = () => {
     setNameFilter('');
   };
 
-  const handlePersonFilterOnChange = (nameFilter) => {
+  const handlePersonFilterChange = (nameFilter) => {
     setFilteredPersons(
       persons.filter((person) =>
         person.name.toUpperCase().includes(nameFilter.toUpperCase())
@@ -34,11 +34,11 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <PersonFilter
-        onChange={(nameFilter) => handlePersonFilterOnChange(nameFilter)}
+        onChange={(event) => handlePersonFilterChange(event.target.value)}
         nameFilter={nameFilter}
       />
       <PersonForm
-        onSubmit={(newPerson) => handlePersonFormOnSubmit(newPerson)}
+        onSubmit={(newPerson) => handlePersonFormSubmit(newPerson)}
         persons={persons}
       />
       <Phonebook persons={filteredPersons} />
