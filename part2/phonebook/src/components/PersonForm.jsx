@@ -4,7 +4,7 @@ const PersonForm = ({ onSubmit, persons, heading }) => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
 
-  const addPerson = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     const newPersonObject = {
@@ -25,7 +25,7 @@ const PersonForm = ({ onSubmit, persons, heading }) => {
   return (
     <div>
       <h3>{heading}</h3>
-      <form onSubmit={addPerson}>
+      <form onSubmit={handleSubmit}>
         <div>
           name:{' '}
           <input
