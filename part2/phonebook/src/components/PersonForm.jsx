@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ onSubmit, persons }) => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
 
@@ -16,7 +16,7 @@ const PersonForm = ({ persons, setPersons }) => {
     if (persons.some((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons(persons.concat(newPersonObject));
+      onSubmit(newPersonObject);
       setNewName('');
       setNewNumber('');
     }
