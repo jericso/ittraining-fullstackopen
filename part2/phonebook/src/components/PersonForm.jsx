@@ -8,9 +8,9 @@ const PersonForm = ({ onSubmit, persons, heading }) => {
     event.preventDefault();
 
     const newPersonObject = {
-      id: persons.length + 1,
       name: newName,
       number: newNumber,
+      id: String(persons.length + 1),
     };
 
     if (persons.some((person) => person.name === newName)) {
