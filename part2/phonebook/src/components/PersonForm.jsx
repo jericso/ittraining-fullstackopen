@@ -1,19 +1,16 @@
 import { useState } from 'react';
 
 const PersonForm = ({ onSubmit, persons, heading }) => {
-  const [newName, setNewName] = useState('');
-  const [newNumber, setNewNumber] = useState('');
+  const [name, setNewName] = useState('');
+  const [number, setNewNumber] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const newPersonObject = {
-      name: newName,
-      number: newNumber,
-    };
+    const newPersonObject = { name, number };
 
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
+    if (persons.some((person) => person.name === name)) {
+      alert(`${name} is already added to phonebook`);
     } else {
       onSubmit(newPersonObject);
       setNewName('');
@@ -28,14 +25,14 @@ const PersonForm = ({ onSubmit, persons, heading }) => {
         <div>
           name:{' '}
           <input
-            value={newName}
+            value={name}
             onChange={(event) => setNewName(event.target.value)}
           />
         </div>
         <div>
           number:{' '}
           <input
-            value={newNumber}
+            value={number}
             onChange={(event) => setNewNumber(event.target.value)}
           />
         </div>
