@@ -10,10 +10,16 @@ const App = () => {
   const [nameFilter, setNameFilter] = useState('');
 
   useEffect(() => {
-    personService.getAll().then((initialPersons) => {
-      setPersons(initialPersons);
-      setFilteredPersons(initialPersons);
-    });
+    personService
+      .getAll()
+      .then((initialPersons) => {
+        setPersons(initialPersons);
+        setFilteredPersons(initialPersons);
+      })
+      .catch((error) => {
+        alert(`Getting all persons resulted in error: ${error}`);
+        resetState(persons);
+      });
   }, []);
 
   const resetState = (persons) => {
@@ -22,26 +28,32 @@ const App = () => {
     setNameFilter('');
   };
 
-  const handlePersonFormSubmitCreate = (newPerson) => {
-    personService.create(newPerson).then((returnedPerson) => {
-      const updatedPersons = persons.concat(returnedPerson);
-      resetState(updatedPersons);
-    });
+  const handlePersonFormSubmitCreate = (createPerson) => {
+    personService
+      .create(createPerson)
+      .then((returnedPerson) => {
+        const updatedPersons = persons.concat(returnedPerson);
+        resetState(updatedPersons);
+      })
+      .catch((error) => {
+        alert(`Adding '${createPerson.name}' resulted in error: ${error}`);
+        resetState(persons);
+      });
   };
 
-  const handlePersonFormSubmitUpdate = (updatedPerson) => {
+  const handlePersonFormSubmitUpdate = (updatePerson) => {
     personService
-      .update(updatedPerson.id, updatedPerson)
+      .update(updatePerson.id, updatePerson)
       .then((returnedPerson) => {
         const updatedPersons = persons.map((person) =>
-          person.id === updatedPerson.id ? returnedPerson : person
+          person.id === updatePerson.id ? returnedPerson : person
         );
         resetState(updatedPersons);
       })
       .catch((error) => {
-        alert(`Update to '${updatedPerson.name}' resulted in error: ${error}`);
+        alert(`Update to '${updatePerson.name}' resulted in error: ${error}`);
         const updatedPersons = persons.filter(
-          (person) => person.id !== updatedPerson.id
+          (person) => person.id !== updatePerson.id
         );
         resetState(updatedPersons);
       });
@@ -87,17 +99,19 @@ const App = () => {
         nameFilter={nameFilter}
       />
       <PersonForm
-        onSubmitCreate={(newPerson) => handlePersonFormSubmitCreate(newPerson)}
+        onSubmitCreate={(createdPerson) =>
+          handlePersonFormSubmitCreate(createdPerson)
+        }
         onSubmitUpdate={(updatedPerson) =>
           handlePersonFormSubmitUpdate(updatedPerson)
         }
         persons={persons}
-        heading={'Add a new'}
+        heading={'add a new'}
       />
       <Persons
         persons={filteredPersons}
         heading={'Numbers'}
-        onPersonDelete={(deletePerson) => handlePersonDelete(deletePerson)}
+        onPersonDelete={(deletedPerson) => handlePersonDelete(deletedPerson)}
       />
     </div>
   );
