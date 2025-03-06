@@ -1,20 +1,34 @@
 import { useState } from 'react';
 
-const PersonForm = ({ onSubmit, persons, heading }) => {
+const PersonForm = ({ onSubmitCreate, onSubmitUpdate, persons, heading }) => {
   const [name, setNewName] = useState('');
   const [number, setNewNumber] = useState('');
+
+  const resetState = () => {
+    setNewName('');
+    setNewNumber('');
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const newPersonObject = { name, number };
-
-    if (persons.some((person) => person.name === name)) {
-      alert(`${name} is already added to phonebook`);
+    if (
+      persons.some((person) => person.name.toUpperCase() === name.toUpperCase())
+    ) {
+      if (
+        window.confirm(
+          `${name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const person = persons.find(
+          (person) => person.name.toUpperCase() === name.toUpperCase()
+        );
+        onSubmitUpdate({ ...person, number: number });
+        resetState();
+      }
     } else {
-      onSubmit(newPersonObject);
-      setNewName('');
-      setNewNumber('');
+      onSubmitCreate({ name, number });
+      resetState();
     }
   };
 
