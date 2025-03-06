@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import PersonFilter from './components/PersonFilter';
@@ -17,14 +16,58 @@ const App = () => {
     });
   }, []);
 
-  const handlePersonFormSubmit = (newPerson) => {
+  const resetState = (persons) => {
+    setPersons(persons);
+    setFilteredPersons(persons);
+    setNameFilter('');
+  };
+
+  const handlePersonFormSubmitCreate = (newPerson) => {
     personService.create(newPerson).then((returnedPerson) => {
       const updatedPersons = persons.concat(returnedPerson);
-
-      setPersons(updatedPersons);
-      setFilteredPersons(updatedPersons);
-      setNameFilter('');
+      resetState(updatedPersons);
     });
+  };
+
+  const handlePersonFormSubmitUpdate = (updatedPerson) => {
+    personService
+      .update(updatedPerson.id, updatedPerson)
+      .then((returnedPerson) => {
+        const updatedPersons = persons.map((person) =>
+          person.id === updatedPerson.id ? returnedPerson : person
+        );
+        resetState(updatedPersons);
+      })
+      .catch((error) => {
+        alert(`Update to '${updatedPerson.name}' resulted in error: ${error}`);
+        const updatedPersons = persons.filter(
+          (person) => person.id !== updatedPerson.id
+        );
+        resetState(updatedPersons);
+      });
+  };
+
+  const handlePersonDelete = (deletePerson) => {
+    if (window.confirm(`Delete ${deletePerson.name}?`)) {
+      personService
+        .remove(deletePerson.id)
+        .then((response) => {
+          const updatedPersons = persons.filter(
+            (person) => person.id !== deletePerson.id
+          );
+          resetState(updatedPersons);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(
+            `Deletion of '${deletePerson.name}' resulted in error: ${error}`
+          );
+          const updatedPersons = persons.filter(
+            (person) => person.id !== deletePerson.id
+          );
+          resetState(updatedPersons);
+        });
+    }
   };
 
   const handlePersonFilterChange = (nameFilter) => {
@@ -44,11 +87,18 @@ const App = () => {
         nameFilter={nameFilter}
       />
       <PersonForm
-        onSubmit={(newPerson) => handlePersonFormSubmit(newPerson)}
+        onSubmitCreate={(newPerson) => handlePersonFormSubmitCreate(newPerson)}
+        onSubmitUpdate={(updatedPerson) =>
+          handlePersonFormSubmitUpdate(updatedPerson)
+        }
         persons={persons}
         heading={'Add a new'}
       />
-      <Persons persons={filteredPersons} heading={'Numbers'} />
+      <Persons
+        persons={filteredPersons}
+        heading={'Numbers'}
+        onPersonDelete={(deletePerson) => handlePersonDelete(deletePerson)}
+      />
     </div>
   );
 };
