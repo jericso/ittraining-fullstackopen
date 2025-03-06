@@ -10,7 +10,6 @@ const PersonForm = ({ onSubmit, persons, heading }) => {
     const newPersonObject = {
       name: newName,
       number: newNumber,
-      id: String(persons.length + 1),
     };
 
     if (persons.some((person) => person.name === newName)) {
