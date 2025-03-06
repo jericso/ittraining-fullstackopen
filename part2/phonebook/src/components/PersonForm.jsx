@@ -17,7 +17,7 @@ const PersonForm = ({ onSubmitCreate, onSubmitUpdate, persons, heading }) => {
     ) {
       if (
         window.confirm(
-          `${name} is already added to phonebook, replace the old number with a new one?`
+          `'${name}' is already added to phonebook, replace the old number with a new one?`
         )
       ) {
         const person = persons.find(
