@@ -2,12 +2,34 @@ import { useState, useEffect } from 'react';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import PersonFilter from './components/PersonFilter';
+import Notification from './components/Notification';
 import personService from './services/persons';
 
 const App = () => {
+  const confirmationStyle = {
+    color: 'green',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  };
+  const errorStyle = {
+    color: 'red',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  };
+
   const [persons, setPersons] = useState([]);
   const [filteredPersons, setFilteredPersons] = useState([]);
   const [nameFilter, setNameFilter] = useState('');
+  const [confirmationMessage, setConfirmationMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -17,7 +39,11 @@ const App = () => {
         setFilteredPersons(initialPersons);
       })
       .catch((error) => {
-        alert(`Getting all persons resulted in error: ${error}`);
+        console.log(error);
+        setErrorMessage(`Getting all persons resulted in error: ${error}`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
         resetState(persons);
       });
   }, []);
@@ -33,10 +59,20 @@ const App = () => {
       .create(createPerson)
       .then((returnedPerson) => {
         const updatedPersons = persons.concat(returnedPerson);
+        setConfirmationMessage(`Added ${createPerson.name}`);
+        setTimeout(() => {
+          setConfirmationMessage(null);
+        }, 5000);
         resetState(updatedPersons);
       })
       .catch((error) => {
-        alert(`Adding '${createPerson.name}' resulted in error: ${error}`);
+        console.log(error);
+        setErrorMessage(
+          `Adding '${createPerson.name}' resulted in error: ${error}`
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
         resetState(persons);
       });
   };
@@ -48,10 +84,20 @@ const App = () => {
         const updatedPersons = persons.map((person) =>
           person.id === updatePerson.id ? returnedPerson : person
         );
+        setConfirmationMessage(`Updated ${updatePerson.name}`);
+        setTimeout(() => {
+          setConfirmationMessage(null);
+        }, 5000);
         resetState(updatedPersons);
       })
       .catch((error) => {
-        alert(`Update to '${updatePerson.name}' resulted in error: ${error}`);
+        console.log(error);
+        setErrorMessage(
+          `Update to '${updatePerson.name}' resulted in error: ${error}`
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
         const updatedPersons = persons.filter(
           (person) => person.id !== updatePerson.id
         );
@@ -67,13 +113,20 @@ const App = () => {
           const updatedPersons = persons.filter(
             (person) => person.id !== deletePerson.id
           );
+          setConfirmationMessage(`Deleted ${deletePerson.name}`);
+          setTimeout(() => {
+            setConfirmationMessage(null);
+          }, 5000);
           resetState(updatedPersons);
         })
         .catch((error) => {
           console.log(error);
-          alert(
+          setErrorMessage(
             `Deletion of '${deletePerson.name}' resulted in error: ${error}`
           );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
           const updatedPersons = persons.filter(
             (person) => person.id !== deletePerson.id
           );
@@ -94,6 +147,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={confirmationMessage} style={confirmationStyle} />
+      <Notification message={errorMessage} style={errorStyle} />
       <PersonFilter
         onChange={(event) => handlePersonFilterChange(event.target.value)}
         nameFilter={nameFilter}
