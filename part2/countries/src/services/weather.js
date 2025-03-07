@@ -10,7 +10,7 @@ const getCurrent = (latitude, longitude) => {
   url += `&appid=${apiKey}`;
   url += units;
   const request = axios.get(url);
-  return request.then((response) => response.data);
+  return request.then((response) => response.data.current);
 };
 
 export default { getCurrent };

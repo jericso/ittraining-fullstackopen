@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import weatherService from '../services/weather';
 
 const CountryDetail = ({ country }) => {
-  const [weather, setWeather] = useState(null);
+  const [currentWeather, setCurrentWeather] = useState(null);
 
   useEffect(() => {
     weatherService
       .getCurrent(country.capitalInfo.latlng[0], country.capitalInfo.latlng[1])
-      .then((weather) => {
-        setWeather(weather);
+      .then((currentWeather) => {
+        setCurrentWeather(currentWeather);
       })
       .catch((error) => {
         console.log(error);
@@ -16,16 +16,16 @@ const CountryDetail = ({ country }) => {
   }, []);
 
   let weatherDisplay = '';
-  if (weather) {
+  if (currentWeather) {
     weatherDisplay = (
       <div>
-        <div>Temperature {weather.current['temp']} Celsius</div>
+        <div>Temperature {currentWeather['temp']} Celsius</div>
         <div>
           <img
-            src={`https://openweathermap.org/img/wn/${weather.current.weather[0]['icon']}@2x.png`}
+            src={`https://openweathermap.org/img/wn/${currentWeather.weather[0]['icon']}@2x.png`}
           />
         </div>
-        <div>Wind {weather.current['wind_speed']} m/s</div>
+        <div>Wind {currentWeather['wind_speed']} m/s</div>
       </div>
     );
   }
