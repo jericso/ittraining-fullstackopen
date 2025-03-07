@@ -33,14 +33,24 @@ const App = () => {
     setCountryFilter(countryFilter);
   };
 
-  let displayCountries = '';
+  const handleCountryShow = (country) => {
+    setFilteredCountries([country]);
+    setCountryFilter('');
+  };
+
+  let countriesDisplay = '';
   if (filteredCountries) {
     if (filteredCountries.length === 1) {
-      displayCountries = <CountryDetail country={filteredCountries[0]} />;
+      countriesDisplay = <CountryDetail country={filteredCountries[0]} />;
     } else if (filteredCountries.length > 10) {
-      displayCountries = <div>Too many matches, specify another filter</div>;
+      countriesDisplay = <div>Too many matches, specify another filter</div>;
     } else {
-      displayCountries = <Countries countries={filteredCountries} />;
+      countriesDisplay = (
+        <Countries
+          countries={filteredCountries}
+          onCountryShow={(country) => handleCountryShow(country)}
+        />
+      );
     }
   }
 
@@ -50,7 +60,7 @@ const App = () => {
         onChange={(event) => handleCountryFilterChange(event.target.value)}
         countryFilter={countryFilter}
       />
-      {displayCountries}
+      {countriesDisplay}
     </div>
   );
 };
