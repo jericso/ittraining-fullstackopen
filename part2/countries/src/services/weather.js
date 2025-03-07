@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseUrl = 'https://api.openweathermap.org/data/3.0/onecall';
-const apiKey = import.meta.env.VITE_OPENWEATHERMAP_APIKEY;
+const apiKey = import.meta.env.VITE_OPENWEATHER_APIKEY;
 const units = '&units=metric';
 
 const getCurrent = (latitude, longitude) => {
