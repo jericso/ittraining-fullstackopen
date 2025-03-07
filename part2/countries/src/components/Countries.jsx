@@ -1,9 +1,13 @@
 import Country from './Country';
 
-const Countries = ({ countries }) => (
+const Countries = ({ countries, onCountryShow }) => (
   <div>
     {countries.map((country) => (
-      <Country key={country.cca2} countryName={country.name['common']} />
+      <Country
+        key={country.cca2}
+        countryName={country.name['common']}
+        onShow={() => onCountryShow(country)}
+      />
     ))}
   </div>
 );
