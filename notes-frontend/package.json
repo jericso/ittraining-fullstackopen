@@ -8,7 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server -p 3001 db.json"
+    "server": "json-server -p 3001 db.json",
+    "build:ui": "rm -rf dist && cd ../notes-frontend/ && npm run build",
+    "deploy-local": "rm -rf /var/www/localhost_81/html/* && cp -r dist/* /var/www/localhost_81/html",
+    "deploy-local:full": "npm run build:ui && npm run deploy-local"
   },
   "dependencies": {
     "axios": "^1.8.1",
