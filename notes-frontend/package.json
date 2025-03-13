@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "server": "json-server -p 3001 db.json",
     "build:ui": "rm -rf dist && cd ../notes-frontend/ && npm run build",
-    "deploy-local": "rm -rf /var/www/localhost_81/html/* && cp -r dist/* /var/www/localhost_81/html",
+    "deploy-local": "rm -rf /var/www/localhost:81/html/* && cp -r dist/* /var/www/localhost:81/html",
     "deploy-dev": "ssh jericso@dev.prolegoma.com \"rm -rf /var/www/dev.prolegoma.com:81/html/*\" && scp -r ./dist/* jericso@dev.prolegoma.com:/var/www/dev.prolegoma.com:81/html",
     "deploy-local:full": "npm run build:ui && npm run deploy-local",
     "deploy-dev:full": "npm run build:ui && npm run deploy-dev"
