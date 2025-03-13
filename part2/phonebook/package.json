@@ -1,14 +1,18 @@
 {
   "name": "phonebook",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server -p 3002 db.json"
+    "server": "json-server -p 3002 db.json",
+    "build:ui": "rm -rf dist && cd ../phonebook/ && npm run build",
+    "deploy-local": "rm -rf /opt/localhost:3002/dist && cp -r dist /opt/localhost:3002",
+    "deploy-local:full": "npm run build:ui && npm run deploy-local",
+    "deploy-local-repo": "rm -rf /home/jericso/Repositories/ittraining-fullstackopen-backend/dist && cp -rp dist /home/jericso/Repositories/ittraining-fullstackopen-backend/dist"
   },
   "dependencies": {
     "axios": "^1.8.1",
