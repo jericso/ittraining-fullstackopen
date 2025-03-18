@@ -66,9 +66,9 @@ const App = () => {
         resetState(updatedPersons);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data.error);
         setErrorMessage(
-          `Adding '${createPerson.name}' resulted in error: ${error}`
+          `Adding '${createPerson.name}' resulted in error: ${error.response.data.error}`
         );
         setTimeout(() => {
           setErrorMessage(null);
@@ -91,9 +91,9 @@ const App = () => {
         resetState(updatedPersons);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data.error);
         setErrorMessage(
-          `Update to '${updatePerson.name}' resulted in error: ${error}`
+          `Update to '${updatePerson.name}' resulted in error: ${error.response.data.error}`
         );
         setTimeout(() => {
           setErrorMessage(null);
