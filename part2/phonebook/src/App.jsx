@@ -98,10 +98,7 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null);
         }, 5000);
-        const updatedPersons = persons.filter(
-          (person) => person.id !== updatePerson.id
-        );
-        resetState(updatedPersons);
+        resetState(persons);
       });
   };
 
